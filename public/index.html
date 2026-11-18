@@ -8,7 +8,7 @@
 		/>
 		<title>BEN YAPARIM</title>
 
-		<link rel="shortcut icon" href="favicon.webp" />
+		<link id="favicon" rel="shortcut icon" href="favicon.webp" />
 	
 		<script src="/scram/scramjet.all.js"></script>
 		<script src="/baremux/index.js"></script>
@@ -44,29 +44,43 @@
 				background-color: #ffffff;
 				z-index: 9999;
 			}
-			/* TAM EKRANDA SAĞ ÜSTTE ÇIKAN YÜZEN ANA SAYFA BUTONU */
-			#home-fab {
-				display: none;
+			/* SAĞ ÜST KONTROL BUTONLARI (ANA SAYFA VE PANİK) */
+			.top-controls {
 				position: fixed;
 				top: 14px;
 				right: 18px;
 				z-index: 10000;
+				display: flex;
+				gap: 8px;
+			}
+			.fab-btn {
 				background: rgba(15, 23, 42, 0.85);
 				backdrop-filter: blur(8px);
 				color: #f8fafc;
 				border: 1px solid rgba(56, 189, 248, 0.4);
 				border-radius: 30px;
-				padding: 8px 16px;
-				font-size: 0.85rem;
+				padding: 8px 15px;
+				font-size: 0.82rem;
 				font-weight: 600;
 				cursor: pointer;
 				box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
 				transition: all 0.2s;
 			}
-			#home-fab:hover {
+			.fab-btn:hover {
 				background: #38bdf8;
 				color: #090d16;
 				transform: scale(1.05);
+			}
+			.panic-btn {
+				border-color: rgba(248, 113, 113, 0.5);
+				color: #fca5a5;
+			}
+			.panic-btn:hover {
+				background: #ef4444;
+				color: #ffffff;
+			}
+			#home-fab {
+				display: none;
 			}
 			.main-wrapper {
 				width: 100%;
@@ -98,8 +112,8 @@
 			}
 			.desc p {
 				color: #94a3b8;
-				font-size: 1.1rem;
-				margin-bottom: 28px;
+				font-size: 1.05rem;
+				margin-bottom: 26px;
 			}
 			#sj-form {
 				display: flex;
@@ -165,6 +179,27 @@
 				border-color: #38bdf8;
 				color: #ffffff;
 			}
+			.cloak-bar {
+				margin-top: 22px;
+				display: flex;
+				justify-content: center;
+				gap: 8px;
+				flex-wrap: wrap;
+			}
+			.cloak-btn {
+				background: transparent;
+				border: 1px dashed rgba(148, 163, 184, 0.3);
+				color: #94a3b8;
+				padding: 5px 12px;
+				border-radius: 12px;
+				font-size: 0.78rem;
+				cursor: pointer;
+				transition: all 0.2s;
+			}
+			.cloak-btn:hover {
+				border-color: #38bdf8;
+				color: #38bdf8;
+			}
 			#sj-error {
 				color: #f87171;
 				margin-top: 15px;
@@ -202,8 +237,11 @@
 	</head>
 
 	<body>
-		<!-- TAM EKRANDA GÖRÜNEN YÜZEN ANA SAYFA BUTONU -->
-		<button id="home-fab" onclick="goHome()">✕ Ana Sayfa</button>
+		<!-- SAĞ ÜST KONTROL BUTONLARI -->
+		<div class="top-controls">
+			<button id="home-fab" class="fab-btn" onclick="goHome()">✕ Ana Sayfa</button>
+			<button class="fab-btn panic-btn" onclick="triggerPanic()" title="Klavyeden &quot; tuşuna da basabilirsiniz">⚡ Gizle (")</button>
+		</div>
 
 		<div class="main-wrapper">
 			<div title="Scramjet Logo" class="logo-wrapper">
@@ -211,7 +249,7 @@
 				<h1>BEN YAPARIM DEDİYSEM YAPARIM</h1>
 			</div>
 			<div class="desc">
-				<p>:)</p>
+				<p>:) • Acil Google'a geçmek için klavyeden <b>"</b> tuşuna basın</p>
 			</div>
 
 			<form id="sj-form">
@@ -229,12 +267,19 @@
 				<div class="shortcut-btn" onclick="quickGo('https://discord.com')">Discord</div>
 				<div class="shortcut-btn" onclick="quickGo('https://instagram.com')">Instagram</div>
 				<div class="shortcut-btn" onclick="quickGo('https://x.com')">X (Twitter)</div>
-				<div class="shortcut-btn" onclick="quickGo('https://tiktok.com')">TikTok</div>
+				<div class="shortcut-btn" onclick="quickGo('https://tiktok.com')">TikTok (TR)</div>
 				<div class="shortcut-btn" onclick="quickGo('https://spotify.com')">Spotify</div>
 				<div class="shortcut-btn" onclick="quickGo('https://twitch.tv')">Twitch</div>
 				<div class="shortcut-btn" onclick="quickGo('https://reddit.com')">Reddit</div>
 				<div class="shortcut-btn" onclick="quickGo('https://poki.com')">Poki Oyun</div>
 				<div class="shortcut-btn" onclick="quickGo('https://google.com')">Google</div>
+			</div>
+
+			<!-- SEKME GİZLEME (TAB CLOAKING) SEÇENEKLERİ -->
+			<div class="cloak-bar">
+				<button class="cloak-btn" onclick="cloakTab('Google Drive', 'https://gstatic.com')">Sekmeyi Drive Yap</button>
+				<button class="cloak-btn" onclick="cloakTab('Google Dokümanlar', 'https://gstatic.com')">Sekmeyi Dokümanlar Yap</button>
+				<button class="cloak-btn" onclick="cloakTab('Google', 'https://google.com')">Sekmeyi Google Yap</button>
 			</div>
 
 			<div class="desc">
@@ -271,7 +316,32 @@
 				document.getElementById('sj-address').value = '';
 			}
 
-			// Sayfa açıldığında (iframe eklendiğinde) Ana Sayfa butonunu otomatik göster
+			// Sekme Başlığını ve İkonunu Değiştirme (Tab Cloaking)
+			function cloakTab(title, iconUrl) {
+				document.title = title;
+				let link = document.getElementById('favicon');
+				if (link) {
+					link.href = iconUrl;
+				}
+			}
+
+			// Panik Tuşu: Anında Google'a yönlendirir
+			function triggerPanic() {
+				window.location.replace('https://google.com');
+			}
+
+			// Türkçe klavyedeki " (Backquote / é) veya çift tırnak tuşuna basıldığında Panik Tuşunu tetikle
+			document.addEventListener('keydown', function(e) {
+				// Arama kutusuna yazı yazarken yanlışlıkla tetiklenmesini önle
+				if (document.activeElement && document.activeElement.id === 'sj-address') return;
+
+				if (e.key === '"' || e.key === 'é' || e.code === 'Backquote') {
+					e.preventDefault();
+					triggerPanic();
+				}
+			});
+
+			// Sayfa açıldığında Ana Sayfa butonunu otomatik göster
 			const observer = new MutationObserver(() => {
 				const hasFrame = document.querySelector('iframe');
 				const homeBtn = document.getElementById('home-fab');
