@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html lang="tr">
 	<head>
 		<meta charset="utf-8" />
 		<meta
@@ -8,59 +8,217 @@
 		/>
 		<title>BEN YAPARIM</title>
 
-		<link rel="shortcut icon" content="favicon.webp" />
+		<link rel="shortcut icon" href="favicon.webp" />
 	
 		<script src="/scram/scramjet.all.js"></script>
 		<script src="/baremux/index.js"></script>
-		
-		<link rel="stylesheet" href="index.css" />
 		<script src="register-sw.js" defer></script>
 		<script src="search.js" defer></script>
 		<script src="index.js" defer></script>
+
+		<style>
+			* {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+				font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+			}
+			body {
+				min-height: 100vh;
+				background: radial-gradient(circle at top, #1e293b 0%, #090d16 100%);
+				color: #f8fafc;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: space-between;
+				padding: 30px 20px;
+			}
+			.main-wrapper {
+				width: 100%;
+				max-width: 650px;
+				text-align: center;
+				margin-top: auto;
+				margin-bottom: auto;
+			}
+			.logo-wrapper {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				gap: 16px;
+				margin-bottom: 12px;
+			}
+			.logo {
+				width: 72px;
+				height: 72px;
+				border-radius: 18px;
+				box-shadow: 0 8px 25px rgba(56, 189, 248, 0.25);
+			}
+			h1 {
+				font-size: 2.2rem;
+				font-weight: 800;
+				letter-spacing: 0.5px;
+				background: linear-gradient(90deg, #38bdf8, #818cf8);
+				-webkit-background-clip: text;
+				-webkit-text-fill-color: transparent;
+			}
+			.desc p {
+				color: #94a3b8;
+				font-size: 1.1rem;
+				margin-bottom: 28px;
+			}
+			#sj-form {
+				display: flex;
+				align-items: center;
+				background: rgba(30, 41, 59, 0.75);
+				backdrop-filter: blur(12px);
+				border: 1px solid rgba(255, 255, 255, 0.12);
+				border-radius: 50px;
+				padding: 6px 8px;
+				box-shadow: 0 12px 35px rgba(0, 0, 0, 0.45);
+				transition: border-color 0.3s, box-shadow 0.3s;
+			}
+			#sj-form:focus-within {
+				border-color: #38bdf8;
+				box-shadow: 0 12px 35px rgba(56, 189, 248, 0.2);
+			}
+			#sj-address {
+				flex: 1;
+				background: transparent;
+				border: none;
+				outline: none;
+				color: #ffffff;
+				font-size: 1.05rem;
+				padding: 12px 20px;
+			}
+			#sj-address::placeholder {
+				color: #64748b;
+			}
+			.go-btn {
+				background: linear-gradient(135deg, #38bdf8, #6366f1);
+				color: #ffffff;
+				border: none;
+				border-radius: 40px;
+				padding: 12px 28px;
+				font-size: 0.95rem;
+				font-weight: 600;
+				cursor: pointer;
+				transition: transform 0.15s, opacity 0.2s;
+			}
+			.go-btn:hover {
+				opacity: 0.9;
+				transform: scale(1.02);
+			}
+			.shortcuts {
+				margin-top: 26px;
+				display: flex;
+				justify-content: center;
+				gap: 10px;
+				flex-wrap: wrap;
+			}
+			.shortcut-btn {
+				background: rgba(255, 255, 255, 0.05);
+				border: 1px solid rgba(255, 255, 255, 0.08);
+				color: #cbd5e1;
+				padding: 8px 18px;
+				border-radius: 20px;
+				font-size: 0.9rem;
+				cursor: pointer;
+				transition: all 0.2s;
+			}
+			.shortcut-btn:hover {
+				background: rgba(56, 189, 248, 0.15);
+				border-color: #38bdf8;
+				color: #ffffff;
+			}
+			#sj-error {
+				color: #f87171;
+				margin-top: 15px;
+				font-weight: 500;
+			}
+			#sj-error-code {
+				color: #fca5a5;
+				font-size: 0.85rem;
+				margin-top: 6px;
+				white-space: pre-wrap;
+			}
+			footer {
+				width: 100%;
+				max-width: 650px;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				flex-wrap: wrap;
+				gap: 12px;
+				padding-top: 20px;
+				border-top: 1px solid rgba(255, 255, 255, 0.06);
+				font-size: 0.85rem;
+				color: #64748b;
+			}
+			footer a {
+				color: #94a3b8;
+				text-decoration: none;
+				margin-right: 14px;
+				transition: color 0.2s;
+			}
+			footer a:hover {
+				color: #38bdf8;
+			}
+		</style>
 	</head>
 
 	<body>
-		<div title="Scramjet Logo" class="flex-center logo-wrapper header-center">
-			<img class="logo" src="sj.png" alt="Scramjet" />
-			<h1>BEN YAPARIM DEDİYSEM YAPARIM
-		</div>
-		<div class="flex-center desc left-margin">
-			<p>
-				:)
-				
-				
-			</p>
+		<div class="main-wrapper">
+			<div title="Scramjet Logo" class="logo-wrapper">
+				<img class="logo" src="sj.png" alt="Scramjet" />
+				<h1>BEN YAPARIM DEDİYSEM YAPARIM</h1>
+			</div>
+			<div class="desc">
+				<p>:)</p>
+			</div>
+
+			<form id="sj-form">
+				<input
+					id="sj-search-engine"
+					value="https://www.google.com/search?q=%s"
+					type="hidden"
+				/>
+				<input id="sj-address" type="text" placeholder="LİNK YAZ BURAYA" autocomplete="off" />
+				<button type="submit" class="go-btn">GİT</button>
+			</form>
+
+			<div class="shortcuts">
+				<div class="shortcut-btn" onclick="quickGo('https://youtube.com')">YouTube</div>
+				<div class="shortcut-btn" onclick="quickGo('https://discord.com')">Discord</div>
+				<div class="shortcut-btn" onclick="quickGo('https://reddit.com')">Reddit</div>
+				<div class="shortcut-btn" onclick="quickGo('https://www.google.com')">Google</div>
+			</div>
+
+			<div class="desc">
+				<p id="sj-error"></p>
+				<pre id="sj-error-code"></pre>
+			</div>
 		</div>
 
-		<form id="sj-form" class="flex-center">
-			<input
-				id="sj-search-engine"
-				value="https://www.google.com/search?q=%s"
-				type="hidden"
-			/>
-			<input id="sj-address" type="text" placeholder="LİNK YAZ BURAYA" />
-		</form>
-		<div class="desc left-margin">
-			<p id="sj-error"></p>
-			<pre id="sj-error-code"></pre>
-		</div>
 		<footer>
 			<div>
-				<a
-					title="The Mercury Workshop GitHub organization"
-					href="https://github.com/MercuryWorkshop"
-					>Mercury Workshop</a
-				>
-				<a
-					title="The example demo app for Scramjet"
-					href="https://github.com/MercuryWorkshop/Scramjet-Demo"
-					>GitHub</a
-				>
+				<a title="The Mercury Workshop GitHub organization" href="https://github.com/MercuryWorkshop">Mercury Workshop</a>
+				<a title="The example demo app for Scramjet" href="https://github.com/MercuryWorkshop/Scramjet-Demo">GitHub</a>
 				<a title="License information" href="credits.html">Credits</a>
 			</div>
 			<div>
 				<span>Scramjet &copy; MW 2025</span>
 			</div>
 		</footer>
+
+		<script>
+			function quickGo(url) {
+				const input = document.getElementById('sj-address');
+				const form = document.getElementById('sj-form');
+				if (input && form) {
+					input.value = url;
+					form.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+				}
+			}
+		</script>
 	</body>
 </html>
